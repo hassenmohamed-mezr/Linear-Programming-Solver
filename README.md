@@ -1,40 +1,45 @@
 # Linear Programming Solver
 
-A lightweight Python CLI for solving linear programming problems with two modes:
+A lightweight Python CLI tool for solving linear programming problems using two different methods:
 
-- graphical solution for 2-variable problems
-- simplex optimization for higher-dimensional problems using SciPy
+- **Graphical Method**: For 2-variable problems, providing visual plots of the feasible region and optimal solution.
+- **Simplex Method**: For problems with more than 2 variables, utilizing SciPy's optimization library for efficient computation.
 
 ## Overview
 
-This repository contains a small educational solver that chooses the appropriate solution method based on user input.
-For 2 variables, it computes constraint intersections, filters feasible points, evaluates the objective, and plots the feasible region.
-For more than 2 variables, it solves the problem using SciPy's `linprog` optimizer.
+This project is an educational linear programming solver that automatically selects the appropriate solution method based on the number of variables entered by the user. It supports maximization problems with linear constraints and non-negativity bounds.
+
+- For 2-variable problems: Computes constraint intersections, identifies feasible corner points, evaluates the objective function, and generates a plot of the feasible region with the optimal point highlighted.
+- For higher-dimensional problems: Leverages SciPy's `linprog` function to solve the linear programming problem using the Simplex algorithm.
 
 ## Features
 
-- CLI-driven solver in `main.py`
-- 2-variable graphical method with constraint plotting
-- Simplex method using `scipy.optimize.linprog`
-- Automatic non-negativity bounds for all variables
-- Prints intersection points, feasible corner points, and optimal results
+- Command-line interface (CLI) for easy interaction via `main.py`.
+- Graphical visualization for 2-variable problems using Matplotlib.
+- Robust Simplex implementation for multi-variable optimization.
+- Automatic handling of non-negativity constraints for all variables.
+- Detailed output including intersection points, feasible points, and optimal solution.
+- Educational focus with clear step-by-step processing.
 
 ## Architecture
 
-- `main.py` — entry point and user interaction
-- `main_graphical_method.py` — collects 2-variable problem input and controls the graphical solver flow
-- `Utility_Func.py` — core helper routines for intersections, feasibility filtering, objective evaluation, and plotting
+The project is organized into modular Python files for maintainability:
+
+- `main.py`: Entry point handling user input and directing to the appropriate solving method.
+- `main_graphical_method.py`: Manages input collection and flow for 2-variable graphical solutions.
+- `main_Simplex_method.py`: Handles input and execution for Simplex method on problems with 3+ variables.
+- `Utility_Func.py`: Contains core utility functions for constraint intersection calculations, feasibility checks, objective evaluation, and plotting.
 
 ## Tech Stack
 
-- Python 3
-- NumPy
-- Matplotlib
-- SciPy
+- **Python 3**: Core programming language.
+- **NumPy**: For numerical computations and array handling.
+- **Matplotlib**: For generating plots in the graphical method.
+- **SciPy**: Provides the `optimize.linprog` function for Simplex optimization.
 
 ## Installation
 
-Install required dependencies:
+Ensure you have Python 3 installed. Install the required dependencies using pip:
 
 ```bash
 pip install numpy matplotlib scipy
@@ -42,21 +47,21 @@ pip install numpy matplotlib scipy
 
 ## Usage
 
-Run the solver from the repository root:
+Navigate to the project root directory and run the solver:
 
 ```bash
 python main.py
 ```
 
-Follow the prompts:
+Follow the interactive prompts:
 
-1. Enter the number of variables.
-2. For 2 variables, enter objective coefficients and each constraint in `ax + by <= c` form.
-3. For more than 2 variables, enter objective coefficients and each constraint coefficients followed by the RHS constant.
+1. Enter the number of variables (2 for graphical, 3+ for Simplex).
+2. Provide objective function coefficients.
+3. Specify the number of constraints and their coefficients.
 
-### Example CLI flow for 2 variables
+### Example: 2-Variable Graphical Method
 
-```text
+```
 Enter number of variables: 2
 Enter objective function:
 Max Z = ax + by
@@ -74,49 +79,44 @@ b1 (y coefficient): 1
 c: 10
 ```
 
-### Example CLI flow for simplex method
+This will generate a plot showing the feasible region and optimal point.
 
-```text
+### Example: Simplex Method (3 Variables)
+
+```
 Enter number of variables: 3
 Enter objective function coefficients (Max Z = ax + by + cz + ...)
 Enter coefficients separated by space: 4 3 5
-Enter number of constraints:
-2
+Enter number of constraints: 2
 Enter constraints in form: a1 a2 a3 ... <= b
 Constraint 1: 2 1 1 20
 Constraint 2: 1 3 2 30
 ```
 
+The solver will output the optimal solution using the Simplex algorithm.
+
 ## Project Structure
 
-```text
-main.py
-main_graphical_method.py
-Utility_Func.py
-README.md
-.vscode/settings.json
+```
+LP_Solver/
+├── main.py                     # Main entry point
+├── main_graphical_method.py    # Graphical method implementation
+├── main_Simplex_method.py      # Simplex method implementation
+├── Utility_Func.py             # Utility functions
+└── README.md                   # This file
 ```
 
 ## Limitations
 
-- Graphical solver supports only 2 variables and only `<=` constraints.
-- Simplex solver accepts only inequality constraints in standard form with implicit non-negativity (`x >= 0`).
-- The project does not support `>=` or equality constraints directly.
-- There is no automated test suite included.
-- No Docker, web API, or database integration is included.
-
-## Future Improvements
-
-- Add parsing for mixed inequality types (`>=`, `=`)
-- Support variable bounds beyond implicit non-negativity
-- Add unit tests and validation for user input
-- Improve plotting to scale dynamically and overlay feasible region more robustly
-- Add a configuration or file-based input mode
+- Currently supports only maximization problems.
+- Assumes all variables are non-negative (standard in many LP problems).
+- Graphical method is limited to 2 variables for visualization purposes.
+- Input validation is basic; ensure correct numerical inputs.
 
 ## Contributing
 
-Contributions are welcome. Please open an issue or submit a pull request with improvements.
+Feel free to submit issues or pull requests for improvements, bug fixes, or additional features.
 
 ## License
 
-This repository does not include a license file. Use and modify at your own risk.
+This project is open-source. Please refer to the license file if included.
